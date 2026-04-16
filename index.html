@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Advanced Todo Card | Stage 1A</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <article
+      data-testid="test-todo-card"
+      class="priority-indicator priority-indicator-high"
+      id="todo-card"
+      role="region"
+      aria-label="Todo task card"
+    >
+      <div class="card-content">
+        <!-- VIEW MODE -->
+        <div id="view-mode">
+          <div class="header-section">
+            <div class="title-area">
+              <h2 data-testid="test-todo-title" id="task-title">
+                Finalize Q2 product roadmap
+              </h2>
+            </div>
+            <span
+              data-testid="test-todo-status"
+              id="status-badge"
+              class="status-badge status-pending"
+              >⏳ Pending</span
+            >
+          </div>
+
+          <!-- Collapsible Section -->
+          <div
+            data-testid="test-todo-collapsible-section"
+            id="collapsible-section"
+          >
+            <p
+              data-testid="test-todo-description"
+              id="task-description"
+              class="description"
+            >
+              Review stakeholder feedback from Q1, align with engineering
+              capacity across frontend and backend teams, coordinate with design
+              on final mockups, and present the final version to leadership by
+              the end of April. This includes budget considerations and resource
+              allocation for the next quarter.
+            </p>
+          </div>
+          <button
+            data-testid="test-todo-expand-toggle"
+            id="expand-toggle"
+            class="expand-toggle"
+            aria-expanded="false"
+            aria-controls="collapsible-section"
+          >
+            ▼ Expand
+          </button>
+
+          <div class="meta-row">
+            <div class="priority-badge priority-high-badge" id="priority-badge">
+              <span data-testid="test-todo-priority">🔴 High</span>
+            </div>
+            <div class="due-wrapper">
+              <time data-testid="test-todo-due-date" id="due-date"
+                >📅 Due Apr 30, 2026</time
+              >
+              <span
+                data-testid="test-todo-time-remaining"
+                id="time-remaining"
+                class="time-remaining"
+                >--</span
+              >
+            </div>
+          </div>
+
+          <!-- Priority Indicator (Visual Dot + Border) -->
+          <div style="margin-bottom: 0.75rem">
+            <span
+              data-testid="test-todo-priority-indicator"
+              style="display: inline-flex; align-items: center; gap: 0.5rem"
+            >
+              <span
+                id="priority-dot"
+                style="
+                  width: 12px;
+                  height: 12px;
+                  border-radius: 50%;
+                  background: #ef4444;
+                  display: inline-block;
+                "
+              ></span>
+              <span style="font-size: 0.7rem; color: #64748b"
+                >Priority level</span
+              >
+            </span>
+          </div>
+
+          <!-- Overdue Indicator with Clear Text -->
+          <div
+            data-testid="test-todo-overdue-indicator"
+            id="overdue-indicator"
+            style="display: none; margin-bottom: 0.75rem"
+          >
+            <span
+              id="overdue-text"
+              style="
+                background: #fee2e2;
+                color: #b91c1c;
+                padding: 0.25rem 0.75rem;
+                border-radius: 2rem;
+                font-size: 0.7rem;
+                font-weight: 600;
+              "
+              >⚠️ Overdue</span
+            >
+          </div>
+
+          <!-- Tags - CORRECT: test-todo-tags on container, individual tags have their own testids -->
+          <div class="tags-section">
+            <ul
+              data-testid="test-todo-tags"
+              class="tags-list"
+              role="list"
+              aria-label="Task categories"
+            >
+              <li data-testid="test-todo-tag-work" class="tag">💼 Work</li>
+              <li data-testid="test-todo-tag-urgent" class="tag">⚡ Urgent</li>
+              <li class="tag">📊 Strategy</li>
+            </ul>
+          </div>
+
+          <!-- Status Control -->
+          <div class="status-control-section">
+            <span class="status-control-label">Change status:</span>
+            <select data-testid="test-todo-status-control" id="status-control">
+              <option value="Pending">⏳ Pending</option>
+              <option value="In Progress">🔄 In Progress</option>
+              <option value="Done">✅ Done</option>
+            </select>
+          </div>
+
+          <!-- Checkbox -->
+          <div class="checkbox-section">
+            <input
+              type="checkbox"
+              id="complete-toggle"
+              data-testid="test-todo-complete-toggle"
+            />
+            <label for="complete-toggle" id="checkbox-label"
+              >Mark as completed</label
+            >
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <button
+              data-testid="test-todo-edit-button"
+              id="edit-btn"
+              class="edit-btn"
+            >
+              ✏️ Edit
+            </button>
+            <button
+              data-testid="test-todo-delete-button"
+              id="delete-btn"
+              class="delete-btn"
+            >
+              🗑️ Delete
+            </button>
+          </div>
+        </div>
+
+        <!-- EDIT MODE (Hidden by default) WITH FOCUS TRAP -->
+        <div id="edit-mode" style="display: none">
+          <!-- Focus trap start (invisible but focusable) -->
+          <div class="focus-trap-start" tabindex="0" aria-hidden="true"></div>
+
+          <form
+            data-testid="test-todo-edit-form"
+            id="edit-form"
+            class="edit-form"
+          >
+            <div class="form-group">
+              <label>Title</label>
+              <input
+                type="text"
+                data-testid="test-todo-edit-title-input"
+                id="edit-title"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea
+                data-testid="test-todo-edit-description-input"
+                id="edit-description"
+                rows="3"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>Priority</label>
+              <select
+                data-testid="test-todo-edit-priority-select"
+                id="edit-priority"
+              >
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Due Date</label>
+              <input
+                type="datetime-local"
+                data-testid="test-todo-edit-due-date-input"
+                id="edit-due-date"
+              />
+            </div>
+            <div class="form-actions">
+              <button
+                type="button"
+                data-testid="test-todo-cancel-button"
+                id="cancel-btn"
+                class="cancel-btn"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                data-testid="test-todo-save-button"
+                id="save-btn"
+                class="save-btn"
+              >
+                Save
+              </button>
+            </div>
+          </form>
+
+          <!-- Focus trap end (invisible but focusable) -->
+          <div class="focus-trap-end" tabindex="0" aria-hidden="true"></div>
+        </div>
+      </div>
+    </article>
+    <script src="script.js"></script>
+  </body>
+</html>
